@@ -2,5 +2,13 @@
 
 namespace RTMProxy
 {
-    public record ProxyConfig([Required]Uri StreamUrl, string? HttpReferer = null);
+    public class ProxyConfig
+    {
+        [Required, Display(Name = "Stream URL")]
+        public Uri StreamUrl { get; set; }
+
+        [Display(Name = "HTTP Referer")]
+        public string? HttpReferer { get; set; }
+    }
+
 }

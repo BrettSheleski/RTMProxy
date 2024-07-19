@@ -1,2 +1,38 @@
 ﻿@model HomeIndexViewModel
 
+<div class="card my-3">
+    <div class="card-body">
+        <div class="input-group">
+            <span class="input-group-text">Proxy Stream URL</span>
+            <input type="text" id="rtmp-url" class="form-control" readonly="readonly" aria-label="RTMP Url" >
+            <button class="btn btn-outline-secondary" type="button" id="copyUrlButton">Copy URL</button>
+        </div>
+    </div>
+</div>
+
+
+@using (Html.BeginForm())
+{
+    <div class="card">
+        <div class="card-header">
+            <h2>Proxy Settings</h2>
+        </div>
+        <div class="card-body">
+
+            <div class="form-floating mb-3">
+                @Html.TextBoxFor(m => m.Config.StreamUrl, new { @class = "form-control", type = "url" })
+                @Html.LabelFor(m => m.Config.StreamUrl)
+                @Html.ValidationMessageFor(m => m.Config.StreamUrl)
+            </div>
+            <div class="form-floating">
+                @Html.TextBoxFor(m => m.Config.HttpReferer, new { @class = "form-control" })
+                @Html.LabelFor(m => m.Config.HttpReferer)
+                @Html.ValidationMessageFor(m => m.Config.HttpReferer)
+            </div>
+
+        </div>
+        <div class="card-footer">
+            <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+    </div>
+}

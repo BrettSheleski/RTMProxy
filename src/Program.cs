@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Options;
+using Microsoft.OpenApi.Models;
 using RTMProxy;
 using RTMProxy.Models;
 using RTMProxy.Services;
@@ -9,35 +10,41 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "RTMProxy", Version = "v1" });
+});
+
 builder.Services.Configure<ProxySettings>(builder.Configuration.GetSection("ProxySettings"));
 
-
+builder.Services.AddSingleton<INginxService, NginxService>();
 builder.Services.AddSingleton<IProxyConfigService, ProxyConfigService>(x =>
 {
     var options = x.GetService<IOptions<ProxySettings>>()
     ?? throw new InvalidProgramException("Cannot read proxy settings from config");
-
-    var configFile = new FileInfo(options.Value.ConfigFile);
 
     JsonSerializerOptions jsonOptions = new JsonSerializerOptions
     {
         WriteIndented = true
     };
 
-    return new ProxyConfigService(configFile, jsonOptions);
+    return new ProxyConfigService(options.Value.ConfigFile, jsonOptions);
 });
-builder.Services.AddScoped<HomeIndexViewModel>();
-
-
 
 var app = builder.Build();
 
-//app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.UseSwagger();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+    c.RoutePrefix = string.Empty; // Set the Swagger UI at the app's root
+});
 
 app.MapControllerRoute(
     name: "default",
