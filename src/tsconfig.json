@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "target": "ES6", // Specifies the target JavaScript version.
+    "module": "ES6", // Specifies the module system to use. ES6 modules can be used in modern browsers.
+    //"outDir": "./", // Output directory is the same as the source directory.
+    //"rootDir": "./wwwroot", // Root directory of your TypeScript source files.
+    "strict": true, // Enable all strict type-checking options.
+    "esModuleInterop": true, // Enables emit interoperability between CommonJS and ES Modules via synthetic default imports.
+    "skipLibCheck": true, // Skip type checking of declaration files.
+    "forceConsistentCasingInFileNames": true, // Disallow inconsistently-cased references to the same file.
+    "sourceMap": true // Generates corresponding '.map' files.
+  },
+  "include": [
+    "wwwroot/**/*.ts" // Include all TypeScript files in the wwwroot directory.
+  ],
+  "exclude": [
+    "node_modules", // Exclude the node_modules directory.
+    "wwwroot/lib/**", // Exclude all files in the wwwroot/lib/ directory.
+    "**/*.spec.ts" // Exclude test files.
+  ],
+  "compileOnSave": true
+}
